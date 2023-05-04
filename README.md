@@ -1,1 +1,1 @@
-# image-campus-project
+# proyecto-image-campus
