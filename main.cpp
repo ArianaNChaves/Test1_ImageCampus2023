@@ -14,14 +14,6 @@
 
 using namespace std;
 
-struct Equipo{
-    float casco;
-    float pecho;
-    float arma;
-    float piernas;
-    float guantes;
-}equipo;
-
 struct Personaje{
     string nombre;
     string clase;
@@ -32,6 +24,8 @@ struct Personaje{
     float ataque;
     float defensa;
     //capacidad de recoleccion?
+    float equipamiento;
+    float arma;
 
 
 }personaje;
@@ -73,8 +67,6 @@ void creacionDePersonaje(){
     int opcion;
     string opcionDeClase;
     string clase;
-
-    Equipo equipo;
     //Dar una bienvenida
 
 
@@ -160,11 +152,8 @@ void creacionDePersonaje(){
         cout << "Se ha creado un arquero!" << endl;
     }
 
-    equipo.arma = 4;
-    equipo.casco = 2;
-    equipo.guantes = 2;
-    equipo.pecho = 2;
-    equipo.piernas = 2;
+    personaje.arma = 10;
+    personaje.equipamiento = 20;
 
 
     system("cls");
@@ -172,12 +161,12 @@ void creacionDePersonaje(){
 
 int calculoDeDefensa(){
     int defensaTotal;
-    defensaTotal = equipo.piernas + equipo.pecho + equipo.guantes + equipo.casco + personaje.defensa;
+    defensaTotal = personaje.equipamiento + personaje.defensa;
     return defensaTotal;
 }
 int calculoDePoder(){
     int poderTotal;
-    poderTotal = equipo.arma + personaje.ataque;
+    poderTotal = personaje.arma + personaje.ataque;
     return poderTotal;
 }
 
