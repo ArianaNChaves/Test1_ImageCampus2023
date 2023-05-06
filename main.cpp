@@ -12,9 +12,43 @@
  * estado de frenezi de los enemigos, cuando bajan a cierta cantidad de vida pegan mas fuerte
  */
 
+ // Lo que se me ocurre es usar un struct para tener el tipo de item, y la cantidad.
+ enum Items {
+     VACIO,
+     MAXIPOCION_DE_VIDA,
+     POCION_DE_MANA,
+     ESPADA,
+ };
+
+
+
+ struct Slot {
+     Items item;
+     int cantidad;
+ };
+
+ // [1, 6, 2, 99, ...]
+ // ["hola", "como", "andas", ...]
+ // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_MANA, cantidad=1}]
+
 using namespace std;
 
 struct Personaje{
+    // Aca tendrias un array, esto seria el inventario del personaje que podes acceder usando
+    // personaje.inventario[0], por ejemplo. En ese slot podria tener 5 (cantidad) pociones de vida
+    // (tipo de item). En el segundo podria tener 3 (cantidad) pociones de mana, en el siguiente slot
+    // podria tener de nuevo por ejemplo 4 pociones de vida, se entiende?
+    Slot inventario[10];
+
+    // Cada {} es un slot, [] es el array entero, aca tendriamos 3 slots pero como arriba definimos 10 podrias tener
+    // mas.
+    // [
+    //      {Cantidad: 5, Item: POCION_DE_VIDA}, // Primer slot (index 0).
+    //      {Cantidad: 3, Item: POCION_DE_MANA}, // Segundo slot (index 1).
+    //      {Cantidad: 4, Item: POCION_DE_VIDA}, // Tercer slot (index 2).
+    //      ...
+    // ]
+
     string nombre;
     string clase;
     string tipo = "personaje";
@@ -27,7 +61,8 @@ struct Personaje{
     float equipamiento;
     float arma;
 
-
+    // inventario
+    Items consumibles[3] = {VACIO, VACIO, VACIO};
 }personaje;
 
 struct Enemigo{
@@ -40,6 +75,7 @@ struct Enemigo{
     string drop;
 
 }enemigo;
+
 
 int numeroAleatorio(int minimo, int maximo) {
     srand(time(0));
@@ -181,6 +217,53 @@ bool golpeara(int porcentajeDeQueGolpee){
     }
     return golpeara;
 }
+
+string toStr(Items item) {
+    switch (item) {
+        case Items::VACIO:
+            return "vacio";
+        case POCION_DE_MANA:
+            return "pocion de mana";
+        default:
+            return "cualquier cosa";
+    }
+}
+
+void agregarAInventario(Items item) {
+    int i = 0;
+
+ /*   for (i = 0; i < 10; i++) {
+        if (personaje.consumibles[i] == "vacio") {
+            // Buscar un slot "vacio".
+            personaje.consumibles[i] = item;
+            break;
+        }
+    }*/
+
+    if (i == 10) {
+        cout << "Tenes el inventario lleno" << endl;
+    } else {
+        cout << toStr(item) << "guardado correctamente" << endl;
+        cout << "Item guardado correctamente" << endl;
+    }
+}
+/*
+void inventarioConsumible(){
+
+
+
+
+    for (int i = 0; i < 10; i++) {
+        consumibles[i] = "pocion de vida"
+    }
+
+    aConsumir = "pocion";
+
+    ["vacio", "vacio", "pocion", "uva", ]
+    ["vacio", "uva", "vacio"]
+
+    return consumibles;
+}*/
 
 void batalla(Enemigo tipoDeEnemigo){
     int accionDeEnemigo;
@@ -371,7 +454,7 @@ void batalla(Enemigo tipoDeEnemigo){
                     break;
             }
         }
-        cout << "----------------------------------------------------" << endl;
+        cout << "--------------------------------------------------------------------------------------" << endl;
     }
     if (personaje.vida <= 0){
         cout << "Has perdido" << endl;
