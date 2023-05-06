@@ -188,7 +188,7 @@ void batalla(Enemigo tipoDeEnemigo){
     float defensaDelPersonaje = calculoDeDefensa();
     float defensaDelEnemigo = tipoDeEnemigo.defensa;
     float ataqueDelPersonaje = calculoDePoder();
-    float ataqueDelEnemigo = tipoDeEnemigo.ataque; //Para que se resetee
+    float ataqueDelEnemigo = tipoDeEnemigo.ataque;
 
     while(personaje.vida >0 && tipoDeEnemigo.vida > 0){
         //tiro un dado, si queda entre 1 o 2 el enemigo ataca, si saca 3 el enemigo se defiende
@@ -207,6 +207,7 @@ void batalla(Enemigo tipoDeEnemigo){
 
                         if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
                             tipoDeEnemigo.vida -= ((ataqueDelPersonaje * 3) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
                         }else{
                             defensaDelEnemigo -= (ataqueDelPersonaje * 3);
                         }
@@ -215,7 +216,7 @@ void batalla(Enemigo tipoDeEnemigo){
                     }
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -227,18 +228,19 @@ void batalla(Enemigo tipoDeEnemigo){
                 case 2:
                     //lo que hace el personaje
                     if (golpeara(40)){
-                        cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje << "!!"<< endl;
-                        if (defensaDelEnemigo <= 0){
-                            tipoDeEnemigo.vida -= ataqueDelPersonaje;
+                        cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
+                        if ((ataqueDelPersonaje) >= defensaDelEnemigo){
+                            tipoDeEnemigo.vida -= ((ataqueDelPersonaje) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
                         }else{
-                            defensaDelEnemigo -= ataqueDelPersonaje;
+                            defensaDelEnemigo -= (ataqueDelPersonaje);
                         }
                     }else{
                         cout << "Has fallado el ataque!" << endl;
                     }
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -248,11 +250,11 @@ void batalla(Enemigo tipoDeEnemigo){
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender" << "!!"<< endl;
+                    cout << "Te vas a defender! (+" << (personaje.defensa+ personaje.equipamiento) / 2 <<")"<< endl;
                     defensaDelPersonaje = (calculoDeDefensa()/2);
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -267,7 +269,7 @@ void batalla(Enemigo tipoDeEnemigo){
                 case 5:
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -280,7 +282,7 @@ void batalla(Enemigo tipoDeEnemigo){
                     cout <<"Has torpezado y te han atacado!"<< endl;
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -304,6 +306,7 @@ void batalla(Enemigo tipoDeEnemigo){
 
                         if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
                             tipoDeEnemigo.vida -= ((ataqueDelPersonaje * 3) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
                         }else{
                             defensaDelEnemigo -= (ataqueDelPersonaje * 3);
                         }
@@ -312,34 +315,35 @@ void batalla(Enemigo tipoDeEnemigo){
                     }
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido!" << endl;
+                        cout << "El enemigo se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
                         defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
                     }
                     break;
                 case 2:
                     //lo que hace el personaje
                     if (golpeara(40)){
-                        cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje << "!!"<< endl;
-                        if (defensaDelEnemigo <= 0){
-                            tipoDeEnemigo.vida -= ataqueDelPersonaje;
+                        cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
+                        if ((ataqueDelPersonaje) >= defensaDelEnemigo){
+                            tipoDeEnemigo.vida -= ((ataqueDelPersonaje) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
                         }else{
-                            defensaDelEnemigo -= ataqueDelPersonaje;
+                            defensaDelEnemigo -= (ataqueDelPersonaje);
                         }
                     }else{
                         cout << "Has fallado el ataque!" << endl;
                     }
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido!" << endl;
+                        cout << "El enemigo se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
                         defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender" << "!!"<< endl;
+                    cout << "Te vas a defender! (+" << (personaje.defensa+ personaje.equipamiento) / 2 <<")"<< endl;
                     defensaDelPersonaje += (calculoDeDefensa()/2);
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido!" << endl;
+                        cout << "El se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
                         defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
                     }
                     break;
@@ -349,15 +353,14 @@ void batalla(Enemigo tipoDeEnemigo){
                 case 5:
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido!" << endl;
+                        cout << "El se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
                         defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
                     }
                     break;
                 default:
-                    cout <<"Has torpezado y te han atacado!"<< endl;
                     //cuando ataca el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo te ha golpeado!" << endl;
+                        cout <<"Has torpezado y te han atacado! (-"<<ataqueDelEnemigo<<")"<< endl;
                         if (ataqueDelEnemigo >= defensaDelPersonaje){
                             personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
                             defensaDelPersonaje = 0;
@@ -368,6 +371,7 @@ void batalla(Enemigo tipoDeEnemigo){
                     break;
             }
         }
+        cout << "----------------------------------------------------" << endl;
     }
     if (personaje.vida <= 0){
         cout << "Has perdido" << endl;
