@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/proyecto-image-campus
+# Install script for directory: C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/image-campus-project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/proyecto-image-campus/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/image-campus-project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

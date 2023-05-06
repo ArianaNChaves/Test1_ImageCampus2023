@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/proyecto-image-campus/cmake-build-debug",
-		"source" : "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/proyecto-image-campus"
+		"build" : "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/image-campus-project/cmake-build-debug",
+		"source" : "C:/Users/Ariana/OneDrive/Escritorio/Ari/Image Campus/C++/image-campus-project"
 	},
 	"version" : 
 	{
