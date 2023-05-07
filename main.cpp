@@ -8,16 +8,19 @@
  * que las peleas sean por turno (dentro de un while o do-while)
  * ADENTRO de las peleas no cuenta la energia, si no que se resta cierto monto al terminar una (quizas varia la cantidad que te saca segun la dificultad)
  * revisar estadisticas
- * puntosDeAccion = seria como la cantidad de acciones que puede realizar el personaje antes de que pase su turno. Y las habilidades cuestan x puntosDeAccion
  * estado de frenezi de los enemigos, cuando bajan a cierta cantidad de vida pegan mas fuerte
  */
 
  // Lo que se me ocurre es usar un struct para tener el tipo de item, y la cantidad.
  enum Items {
      VACIO,
-     MAXIPOCION_DE_VIDA,
-     POCION_DE_MANA,
-     ESPADA,
+     POCION_DE_VIDA,
+     POCION_DE_ESCUDO,
+     BABA,
+     HUESO,
+     MADERA,
+     PIEDRA,
+     GEMA,
  };
 
 
@@ -29,7 +32,7 @@
 
  // [1, 6, 2, 99, ...]
  // ["hola", "como", "andas", ...]
- // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_MANA, cantidad=1}]
+ // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_ESCUDO, cantidad=1}]
 
 using namespace std;
 
@@ -38,13 +41,13 @@ struct Personaje{
     // personaje.inventario[0], por ejemplo. En ese slot podria tener 5 (cantidad) pociones de vida
     // (tipo de item). En el segundo podria tener 3 (cantidad) pociones de mana, en el siguiente slot
     // podria tener de nuevo por ejemplo 4 pociones de vida, se entiende?
-    Slot inventario[10];
+    Slot inventarioConsumible[2] = {{POCION_DE_VIDA,3},{POCION_DE_ESCUDO,3}};
 
     // Cada {} es un slot, [] es el array entero, aca tendriamos 3 slots pero como arriba definimos 10 podrias tener
     // mas.
     // [
     //      {Cantidad: 5, Item: POCION_DE_VIDA}, // Primer slot (index 0).
-    //      {Cantidad: 3, Item: POCION_DE_MANA}, // Segundo slot (index 1).
+    //      {Cantidad: 3, Item: POCION_DE_ESCUDO}, // Segundo slot (index 1).
     //      {Cantidad: 4, Item: POCION_DE_VIDA}, // Tercer slot (index 2).
     //      ...
     // ]
@@ -57,12 +60,12 @@ struct Personaje{
     float puntosDeAccion;
     float ataque;
     float defensa;
-    //capacidad de recoleccion?
+    float capacidadDeRecoleccion;
     float equipamiento;
     float arma;
 
-    // inventario
-    Items consumibles[3] = {VACIO, VACIO, VACIO};
+    // inventario de item consumibles, 3 tipos, pocion de escudo, pocion de vida, vacio
+    Items consumibles[2] = {VACIO, VACIO};
 }personaje;
 
 struct Enemigo{
@@ -71,7 +74,6 @@ struct Enemigo{
     float ataque;
     float defensa;
     string tipo = "enemigo";
-    //drop?
     string drop;
 
 }enemigo;
@@ -220,10 +222,22 @@ bool golpeara(int porcentajeDeQueGolpee){
 
 string toStr(Items item) {
     switch (item) {
-        case Items::VACIO:
+        case VACIO:
             return "vacio";
-        case POCION_DE_MANA:
-            return "pocion de mana";
+        case POCION_DE_ESCUDO:
+            return "pocion de escudo";
+        case POCION_DE_VIDA:
+            return "pocion de vida";
+        case GEMA:
+            return "gema";
+        case BABA:
+            return "baba";
+        case HUESO:
+            return "hueso";
+        case MADERA:
+            return "madera";
+        case PIEDRA:
+            return "piedra";
         default:
             return "cualquier cosa";
     }
