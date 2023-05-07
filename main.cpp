@@ -279,7 +279,6 @@ void agregarAInventario(Items item) {
 int consultarInventarioConsumible(){
     //mostrar que objetos CONSUMIBLES tengo
     int opcion,aux;
-
         for (int i = 0; i < 2; ++i) {
             cout<<i+1 <<".[" <<toStr(personaje.consumibles[i].item) <<" x" << personaje.consumibles[i].cantidad << "] ";
         }
@@ -311,15 +310,10 @@ int consultarInventarioConsumible(){
                 case 3:
                     aux = 0;
                     break;
-
             }
-
         }while(aux == 1);
-
-
     //devuelve el numero de la opcion para hacer los cambios en la batalla, ademas si usa salir puede volver a entrar en el loop del switch de opciones
     return opcion;
-
 }
 
 void batalla(Enemigo tipoDeEnemigo){
