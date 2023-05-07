@@ -275,33 +275,48 @@ void agregarAInventario(Items item) {
     }
 }
 
-//TODO NO OLVIDAR
+//TODO ARREGLAR EL INVENTARIO XD
 int consultarInventarioConsumible(){
     //mostrar que objetos CONSUMIBLES tengo
-    int opcion;
-    do{
+    int opcion,aux;
+
         for (int i = 0; i < 2; ++i) {
-            cout<<i+1 <<".[" <<toStr(personaje.consumibles[0].item) <<" x" << personaje.consumibles[0].cantidad << "] ";
+            cout<<i+1 <<".[" <<toStr(personaje.consumibles[i].item) <<" x" << personaje.consumibles[i].cantidad << "] ";
         }
         cout << endl;
         cout << "1.Consumir pocion de vida" << endl;
         cout << "2.Consumir pocion de defensa" << endl;
         cout << "3.Salir del inventario" << endl;
-        cin >> opcion;
-        if (personaje.consumibles[0].cantidad <= 0){
-            cout << "No tiene ese objeto" << endl;
-            opcion = 4;
+        do{
+            cin >> opcion;
+            switch (opcion) {
+                case 1:
+                    if (personaje.consumibles[0].cantidad <= 0){
+                        cout << "No tienes ese objeto" << endl;
+                        aux = 1;
+                    }else{
+                        personaje.consumibles[0].cantidad -= 1;
+                        aux = 0;
+                    }
+                    break;
+                case 2:
+                    if (personaje.consumibles[1].cantidad <= 0){
+                        cout << "No tienes ese objeto" << endl;
+                        aux = 1;
+                    }else{
+                        personaje.consumibles[1].cantidad -= 1;
+                        aux = 0;
+                    }
+                    break;
+                case 3:
+                    aux = 0;
+                    break;
 
-        }else{
-            personaje.consumibles[0].cantidad -= 1;
-        }
-        if (personaje.consumibles[1].cantidad <= 0){
-            cout << "No tiene ese objeto" << endl;
-            opcion = 4;
-        }else{
-            personaje.consumibles[1].cantidad -= 1;
-        }
-    }while(opcion <= 3 && opcion !=3 );
+            }
+
+        }while(aux == 1);
+
+
     //devuelve el numero de la opcion para hacer los cambios en la batalla, ademas si usa salir puede volver a entrar en el loop del switch de opciones
     return opcion;
 
