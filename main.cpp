@@ -13,7 +13,6 @@
 
  // Lo que se me ocurre es usar un struct para tener el tipo de item, y la cantidad.
  enum Items {
-     VACIO,
      POCION_DE_VIDA,
      POCION_DE_ESCUDO,
      BABA,
@@ -41,7 +40,8 @@ struct Personaje{
     // personaje.inventario[0], por ejemplo. En ese slot podria tener 5 (cantidad) pociones de vida
     // (tipo de item). En el segundo podria tener 3 (cantidad) pociones de mana, en el siguiente slot
     // podria tener de nuevo por ejemplo 4 pociones de vida, se entiende?
-    Slot inventarioConsumible[2] = {{POCION_DE_VIDA,3},{POCION_DE_ESCUDO,3}};
+    Slot consumibles[2] = {{POCION_DE_VIDA, 3}, {POCION_DE_ESCUDO, 3}};
+    Slot objetos[5] = {{GEMA, 0},{BABA, 0},{HUESO, 0},{MADERA, 0},{PIEDRA, 0}};
 
     // Cada {} es un slot, [] es el array entero, aca tendriamos 3 slots pero como arriba definimos 10 podrias tener
     // mas.
@@ -64,8 +64,6 @@ struct Personaje{
     float equipamiento;
     float arma;
 
-    // inventario de item consumibles, 3 tipos, pocion de escudo, pocion de vida, vacio
-    Items consumibles[2] = {VACIO, VACIO};
 }personaje;
 
 struct Enemigo{
@@ -222,8 +220,6 @@ bool golpeara(int porcentajeDeQueGolpee){
 
 string toStr(Items item) {
     switch (item) {
-        case VACIO:
-            return "vacio";
         case POCION_DE_ESCUDO:
             return "pocion de escudo";
         case POCION_DE_VIDA:
@@ -244,40 +240,50 @@ string toStr(Items item) {
 }
 
 void agregarAInventario(Items item) {
-    int i = 0;
-
- /*   for (i = 0; i < 10; i++) {
-        if (personaje.consumibles[i] == "vacio") {
-            // Buscar un slot "vacio".
-            personaje.consumibles[i] = item;
+    switch (item) {
+        case POCION_DE_ESCUDO:
+            personaje.consumibles[1].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
             break;
-        }
-    }*/
-
-    if (i == 10) {
-        cout << "Tenes el inventario lleno" << endl;
-    } else {
-        cout << toStr(item) << "guardado correctamente" << endl;
-        cout << "Item guardado correctamente" << endl;
+        case POCION_DE_VIDA:
+            personaje.consumibles[0].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        case GEMA:
+            personaje.objetos[0].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        case BABA:
+            personaje.objetos[1].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        case HUESO:
+            personaje.objetos[2].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        case MADERA:
+            personaje.objetos[3].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        case PIEDRA:
+            personaje.objetos[4].cantidad += 1;
+            cout << toStr(item)<< " agregado correctamente." << endl;
+            break;
+        default:
+            cout << "Nombre de item incorrecto" << endl;
+            break;
     }
 }
-/*
-void inventarioConsumible(){
 
-
-
-
-    for (int i = 0; i < 10; i++) {
-        consumibles[i] = "pocion de vida"
+//TODO NO OLVIDAR
+void consultarInventarioConsumible(){
+    //mostrar que objetos CONSUMIBLES tengo
+    for (int i = 0; i < 2; ++i) {
+        cout <<toStr(personaje.consumibles[0].item) <<" x" << personaje.consumibles[0].cantidad << " " << endl;
     }
 
-    aConsumir = "pocion";
 
-    ["vacio", "vacio", "pocion", "uva", ]
-    ["vacio", "uva", "vacio"]
-
-    return consumibles;
-}*/
+}
 
 void batalla(Enemigo tipoDeEnemigo){
     int accionDeEnemigo;
