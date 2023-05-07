@@ -14,7 +14,7 @@
  // Lo que se me ocurre es usar un struct para tener el tipo de item, y la cantidad.
  enum Items {
      POCION_DE_VIDA,
-     POCION_DE_ESCUDO,
+     POCION_DE_DEFENSA,
      BABA,
      HUESO,
      MADERA,
@@ -31,7 +31,7 @@
 
  // [1, 6, 2, 99, ...]
  // ["hola", "como", "andas", ...]
- // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_ESCUDO, cantidad=1}]
+ // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_DEFENSA, cantidad=1}]
 
 using namespace std;
 
@@ -40,14 +40,14 @@ struct Personaje{
     // personaje.inventario[0], por ejemplo. En ese slot podria tener 5 (cantidad) pociones de vida
     // (tipo de item). En el segundo podria tener 3 (cantidad) pociones de mana, en el siguiente slot
     // podria tener de nuevo por ejemplo 4 pociones de vida, se entiende?
-    Slot consumibles[2] = {{POCION_DE_VIDA, 3}, {POCION_DE_ESCUDO, 3}};
+    Slot consumibles[2] = {{POCION_DE_VIDA, 3}, {POCION_DE_DEFENSA, 3}};
     Slot objetos[5] = {{GEMA, 0},{BABA, 0},{HUESO, 0},{MADERA, 0},{PIEDRA, 0}};
 
     // Cada {} es un slot, [] es el array entero, aca tendriamos 3 slots pero como arriba definimos 10 podrias tener
     // mas.
     // [
     //      {Cantidad: 5, Item: POCION_DE_VIDA}, // Primer slot (index 0).
-    //      {Cantidad: 3, Item: POCION_DE_ESCUDO}, // Segundo slot (index 1).
+    //      {Cantidad: 3, Item: POCION_DE_DEFENSA}, // Segundo slot (index 1).
     //      {Cantidad: 4, Item: POCION_DE_VIDA}, // Tercer slot (index 2).
     //      ...
     // ]
@@ -220,7 +220,7 @@ bool golpeara(int porcentajeDeQueGolpee){
 
 string toStr(Items item) {
     switch (item) {
-        case POCION_DE_ESCUDO:
+        case POCION_DE_DEFENSA:
             return "pocion de escudo";
         case POCION_DE_VIDA:
             return "pocion de vida";
@@ -241,7 +241,7 @@ string toStr(Items item) {
 
 void agregarAInventario(Items item) {
     switch (item) {
-        case POCION_DE_ESCUDO:
+        case POCION_DE_DEFENSA:
             personaje.consumibles[1].cantidad += 1;
             cout << toStr(item)<< " agregado correctamente." << endl;
             break;
@@ -276,12 +276,34 @@ void agregarAInventario(Items item) {
 }
 
 //TODO NO OLVIDAR
-void consultarInventarioConsumible(){
+int consultarInventarioConsumible(){
     //mostrar que objetos CONSUMIBLES tengo
-    for (int i = 0; i < 2; ++i) {
-        cout <<toStr(personaje.consumibles[0].item) <<" x" << personaje.consumibles[0].cantidad << " " << endl;
-    }
+    int opcion;
+    do{
+        for (int i = 0; i < 2; ++i) {
+            cout<<i+1 <<".[" <<toStr(personaje.consumibles[0].item) <<" x" << personaje.consumibles[0].cantidad << "] ";
+        }
+        cout << endl;
+        cout << "1.Consumir pocion de vida" << endl;
+        cout << "2.Consumir pocion de defensa" << endl;
+        cout << "3.Salir del inventario" << endl;
+        cin >> opcion;
+        if (personaje.consumibles[0].cantidad <= 0){
+            cout << "No tiene ese objeto" << endl;
+            opcion = 4;
 
+        }else{
+            personaje.consumibles[0].cantidad -= 1;
+        }
+        if (personaje.consumibles[1].cantidad <= 0){
+            cout << "No tiene ese objeto" << endl;
+            opcion = 4;
+        }else{
+            personaje.consumibles[1].cantidad -= 1;
+        }
+    }while(opcion <= 3 && opcion !=3 );
+    //devuelve el numero de la opcion para hacer los cambios en la batalla, ademas si usa salir puede volver a entrar en el loop del switch de opciones
+    return opcion;
 
 }
 
@@ -366,8 +388,41 @@ void batalla(Enemigo tipoDeEnemigo){
                         }
                     }
                     break;
-                case 4:
-                    cout << "Hacer el inventario :D" << endl;
+                case 4://todo aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA bajar la cantidad de los consumibles
+                    switch (consultarInventarioConsumible()) {
+                        case 1: //tomar pocion de vida
+                            personaje.vida += 100;
+                            cout << "(+100 de vida)" << endl;
+                            //cuando ataca el enemigo
+                            if (tipoDeEnemigo.vida > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 2: //tomar pocion de defensa
+                            defensaDelPersonaje += 100;
+                            cout << "(+100 de defensa)" << endl;
+                            //cuando ataca el enemigo
+                            if (tipoDeEnemigo.vida > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 3: //salir
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 5:
                     //cuando ataca el enemigo
@@ -450,8 +505,41 @@ void batalla(Enemigo tipoDeEnemigo){
                         defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
                     }
                     break;
-                case 4:
-                    cout << "Hacer el inventario :D" << endl;
+                case 4://todo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                    switch (consultarInventarioConsumible()) {
+                        case 1: //tomar pocion de vida
+                            personaje.vida += 100;
+                            cout << "(+100 de vida)" << endl;
+                            //cuando ataca el enemigo
+                            if (tipoDeEnemigo.vida > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 2: //tomar pocion de defensa
+                            defensaDelPersonaje += 100;
+                            cout << "(+100 de defensa)" << endl;
+                            //cuando ataca el enemigo
+                            if (tipoDeEnemigo.vida > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 3: //salir
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 5:
                     //cuando se defiende el enemigo
