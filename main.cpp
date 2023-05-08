@@ -275,7 +275,6 @@ void agregarAInventario(Items item) {
     }
 }
 
-//TODO ARREGLAR EL INVENTARIO XD
 int consultarInventarioConsumible(){
     //mostrar que objetos CONSUMIBLES tengo
     int opcion,aux;
@@ -316,7 +315,7 @@ int consultarInventarioConsumible(){
     return opcion;
 }
 
-void batalla(Enemigo tipoDeEnemigo){
+bool batalla(Enemigo tipoDeEnemigo){
     int accionDeEnemigo;
     int accionDelPersonaje;
     float defensaDelPersonaje = calculoDeDefensa();
@@ -397,7 +396,7 @@ void batalla(Enemigo tipoDeEnemigo){
                         }
                     }
                     break;
-                case 4://todo aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA bajar la cantidad de los consumibles
+                case 4:
                     switch (consultarInventarioConsumible()) {
                         case 1: //tomar pocion de vida
                             personaje.vida += 100;
@@ -482,8 +481,8 @@ void batalla(Enemigo tipoDeEnemigo){
                     }
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
-                        defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
+                        cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                        defensaDelEnemigo += 10;
                     }
                     break;
                 case 2:
@@ -501,8 +500,8 @@ void batalla(Enemigo tipoDeEnemigo){
                     }
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El enemigo se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
-                        defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
+                        cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                        defensaDelEnemigo += 10;
                     }
                     break;
                 case 3:
@@ -510,38 +509,28 @@ void batalla(Enemigo tipoDeEnemigo){
                     defensaDelPersonaje += (calculoDeDefensa()/2);
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
-                        defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
+                        cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                        defensaDelEnemigo += 10;
                     }
                     break;
-                case 4://todo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                case 4:
                     switch (consultarInventarioConsumible()) {
                         case 1: //tomar pocion de vida
                             personaje.vida += 100;
                             cout << "(+100 de vida)" << endl;
-                            //cuando ataca el enemigo
+                            //cuando se defiende el enemigo
                             if (tipoDeEnemigo.vida > 0){
-                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
-                                if (ataqueDelEnemigo >= defensaDelPersonaje){
-                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
-                                    defensaDelPersonaje = 0;
-                                }else{
-                                    defensaDelPersonaje -= ataqueDelEnemigo;
-                                }
+                                cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                                defensaDelEnemigo += 10;
                             }
                             break;
                         case 2: //tomar pocion de defensa
                             defensaDelPersonaje += 100;
                             cout << "(+100 de defensa)" << endl;
-                            //cuando ataca el enemigo
+                            //cuando se defiende el enemigo
                             if (tipoDeEnemigo.vida > 0){
-                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
-                                if (ataqueDelEnemigo >= defensaDelPersonaje){
-                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
-                                    defensaDelPersonaje = 0;
-                                }else{
-                                    defensaDelPersonaje -= ataqueDelEnemigo;
-                                }
+                                cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                                defensaDelEnemigo += 10;
                             }
                             break;
                         case 3: //salir
@@ -553,8 +542,8 @@ void batalla(Enemigo tipoDeEnemigo){
                 case 5:
                     //cuando se defiende el enemigo
                     if (tipoDeEnemigo.vida > 0){
-                        cout << "El se ha defendido! (+"<< defensaDelEnemigo / 2<<")" << endl;
-                        defensaDelEnemigo += (tipoDeEnemigo.defensa / 2);
+                        cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
+                        defensaDelEnemigo += 10;
                     }
                     break;
                 default:
@@ -572,23 +561,38 @@ void batalla(Enemigo tipoDeEnemigo){
             }
         }
         cout << "--------------------------------------------------------------------------------------" << endl;
+        system("pause");
+        system("cls");
     }
+    bool ganaste;
     if (personaje.vida <= 0){
         cout << "Has perdido" << endl;
+        ganaste = false;
     }
     if (tipoDeEnemigo.vida <= 0){
         cout << "Lo has derrotado!" << endl;
+        ganaste = true;
     }
+    return ganaste;
 }
 
 
 int main() {
     srand(time(0));
+    bool gameOver = false;
     creacionDePersonaje();
     Enemigo slime = creacionDeEnemigo("Slime");
+//BATALLA
+    if (batalla(slime)){
+        cout << "Te han dropeando unos objetos" << endl;
+        agregarAInventario(BABA);
+        agregarAInventario(POCION_DE_VIDA);
+        agregarAInventario(POCION_DE_DEFENSA);
+    }else{
+        gameOver = true;
+    }
 
-
-    batalla(slime);
+//RECOLECCION
 
     return 0;
 }
