@@ -10,8 +10,8 @@
  * revisar estadisticas
  * estado de frenezi de los enemigos, cuando bajan a cierta cantidad de vida pegan mas fuerte
  */
+using namespace std;
 
- // Lo que se me ocurre es usar un struct para tener el tipo de item, y la cantidad.
  enum Items {
      POCION_DE_VIDA,
      POCION_DE_DEFENSA,
@@ -22,45 +22,33 @@
      MINERAL,
  };
 
-
-
  struct Slot {
      Items item;
      int cantidad;
  };
 
- // [1, 6, 2, 99, ...]
- // ["hola", "como", "andas", ...]
- // [Slot{item=POCION_DE_VIDA, cantidad=1}, Slot{item=POCION_DE_VIDA, cantidad=2}, Slot{item=POCION_DE_DEFENSA, cantidad=1}]
+struct Armamento {
+    string nombre;
+    int poderDeAtaque;
+};
 
-using namespace std;
+struct Equipamiento {
+    string nombre;
+    int defensa;
+};
 
 struct Personaje{
-    // Aca tendrias un array, esto seria el inventario del personaje que podes acceder usando
-    // personaje.inventario[0], por ejemplo. En ese slot podria tener 5 (cantidad) pociones de vida
-    // (tipo de item). En el segundo podria tener 3 (cantidad) pociones de mana, en el siguiente slot
-    // podria tener de nuevo por ejemplo 4 pociones de vida, se entiende?
     Slot consumibles[2] = {{POCION_DE_VIDA, 3}, {POCION_DE_DEFENSA, 3}};
     Slot objetos[5] = {{MINERAL, 0}, {BABA, 0}, {HUESO, 0}, {MADERA, 0}, {PIEDRA, 0}};
-
-    // Cada {} es un slot, [] es el array entero, aca tendriamos 3 slots pero como arriba definimos 10 podrias tener
-    // mas.
-    // [
-    //      {Cantidad: 5, Item: POCION_DE_VIDA}, // Primer slot (index 0).
-    //      {Cantidad: 3, Item: POCION_DE_DEFENSA}, // Segundo slot (index 1).
-    //      {Cantidad: 4, Item: POCION_DE_VIDA}, // Tercer slot (index 2).
-    //      ...
-    // ]
+    Armamento arma = {"Espada basica", 10};
+    Equipamiento armadura = {"Equipo basico", 20};
 
     string nombre;
-    string tipo = "personaje";
     float vida;
     float energia;
     float ataque;
     float defensa;
     float capacidadDeRecoleccion;
-    float equipamiento;
-    float arma;
 
 }personaje;
 
@@ -118,108 +106,34 @@ Enemigo creacionDeEnemigo(string nombre){
 }
 
 void creacionDePersonaje(){
-    //se tendria que pedir al usuario el nombre, que tipo (mostrar ventajas y desventajas), y estadisticas inicial de cada tipo
-    //warrior = + vida + defensa -ataque -energia
-    //mage = -vida -defensa ++ataque +energia (cuando tira un hechizo debe esperar 2 turnos hasta volver a atacar
-    //archer = vida defensa +ataque +energia o mas CDP
-    int opcion;
-    string opcionDeClase;
-    string clase;
     //Dar una bienvenida
-
 
     //Elegir un nombre
     cout << "Ingrese el nombre del personaje" <<endl;
     cin >> personaje.nombre;
 
-    //Clase del personaje
-    //puede ser un menu switch donde elija 1 2 o 3 y luego se vea una descripcion, stat de la tipo y luego preguntar si desea confirmar esa seleccion o volver a las clases
-    do {
-        system("cls");
-        cout << "Elija una tipo" << endl;
-        cout << "1. Guerrero" << endl;
-        cout << "2. Mago" << endl;
-        cout << "3. Arquero" << endl;
-        cin >> opcion;
-        switch (opcion) {
-            case 1:
-                cout << "Un Guerrero es una tipo melee donde su mayor ventaja es la resistencia dada por la vida y la defensa pero no tiene muchos puntos de accion" << endl;
-                cout << "Desea elegir el guerrero? si/no" << endl;
-                cin >> opcionDeClase;
-                while(opcionDeClase != "si" && opcionDeClase != "no"){
-                    cout << "opcion invalida" << endl;
-                    cin >> opcionDeClase;
-                }
-                if (opcionDeClase == "si"){
-                    clase = "guerrero";
-                }
-                break;
-            case 2:
-                cout << "Un Mago es una tipo rango donde su mayor ventaja es el poder de ataque y los puntos de accion pero no tiene mucha defensa ni mucha vida" << endl;
-                cout << "Desea elegir el mago?? si/no" << endl;
-                cin >> opcionDeClase;
-                while(opcionDeClase != "si" && opcionDeClase != "no"){
-                    cout << "opcion invalida" << endl;
-                    cin >> opcionDeClase;
-                }
-                if (opcionDeClase == "si"){
-                    clase = "mago";
-                }
-                break;
-            case 3:
-                cout << "Un Arquero es una tipo rango donde su mayor ventaja es el poder de ataque y una defensa media pero no tiene mucha vida ni muchos puntos de accion" << endl;
-                cout << "Desea elegir el arquero? si/no" << endl;
-                cin >> opcionDeClase;
-                while(opcionDeClase != "si" && opcionDeClase != "no"){
-                    cout << "opcion invalida" << endl;
-                    cin >> opcionDeClase;
-                }
-                if (opcionDeClase == "si"){
-                    clase = "arquero";
-                }
-                break;
-            default:
-                cout << "Ingrese una opcion valida" << endl;
-                break;
-        }
-    }while(opcionDeClase != "si");
-    if (clase == "guerrero"){
-        personaje.defensa = 15;
-        personaje.ataque = 10;
-        personaje.energia = 100;
-        personaje.vida = 150;
-        cout << "Se ha creado un guerrero!" << endl;
-    }
-    else if (clase == "mago"){
-        personaje.defensa = 5;
-        personaje.ataque = 20;
-        personaje.energia = 100;
-        personaje.vida = 100;
-        cout << "Se ha creado un mago!" << endl;
-    }else{
-        personaje.defensa = 10;
-        personaje.ataque = 15;
-        personaje.energia = 100;
-        personaje.vida = 125;
-        cout << "Se ha creado un arquero!" << endl;
-    }
+    system("cls");
 
-    personaje.arma = 10;
-    personaje.equipamiento = 20;
+    personaje.defensa = 15;
+    personaje.ataque = 20;
+    personaje.energia = 100;
+    personaje.vida = 100;
     personaje.capacidadDeRecoleccion = 10;
 
+    cout << "Se ha creado el personaje!" << endl;
 
+    system("pause");
     system("cls");
 }
 
 int calculoDeDefensa(){
     int defensaTotal;
-    defensaTotal = personaje.equipamiento + personaje.defensa;
+    defensaTotal = personaje.armadura.defensa + personaje.defensa;
     return defensaTotal;
 }
 int calculoDePoder(){
     int poderTotal;
-    poderTotal = personaje.arma + personaje.ataque;
+    poderTotal = personaje.arma.poderDeAtaque + personaje.ataque;
     return poderTotal;
 }
 
@@ -398,7 +312,7 @@ bool batalla(Enemigo tipoDeEnemigo){
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender! (+" << (personaje.defensa+ personaje.equipamiento) / 2 <<")"<< endl;
+                    cout << "Te vas a defender! (+" << (calculoDeDefensa()) / 2 << ")" << endl;
                     defensaDelPersonaje = (calculoDeDefensa()/2);
                     //cuando ataca el enemigo
                     if (vidaDelEnemigo > 0){
@@ -520,7 +434,7 @@ bool batalla(Enemigo tipoDeEnemigo){
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender! (+" << (personaje.defensa+ personaje.equipamiento) / 2 <<")"<< endl;
+                    cout << "Te vas a defender! (+" << (calculoDeDefensa()) / 2 << ")" << endl;
                     defensaDelPersonaje += (calculoDeDefensa()/2);
                     //cuando se defiende el enemigo
                     if (vidaDelEnemigo > 0){
@@ -669,6 +583,16 @@ bool cazarMonstruos(){
                 break;
         }
     return resultado;
+}
+//todo Hacer la creacion de equipo
+void crearEquipo(){
+    //mostrar lista de mejoras con sus requisitos
+
+    //preguntar que quiere craftear(upgradear)
+
+    //verificar si tiene los requisitos
+
+    //
 }
 int main() {
     srand(time(0));
