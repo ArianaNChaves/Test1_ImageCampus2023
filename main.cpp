@@ -157,7 +157,7 @@ bool golpeara(int porcentajeDeQueGolpee){
 string toStr(Items item) {
     switch (item) {
         case POCION_DE_DEFENSA:
-            return "pocion de escudo";
+            return "pocion de defensa";
         case POCION_DE_VIDA:
             return "pocion de vida";
         case MINERAL:
@@ -594,7 +594,7 @@ void forjaDeArmas(){
     cout << "<-----------*--- ARMAS ---*----------->" << endl;
                 //MOSTRAR armas
     for (int i = 0; i < 3; ++i) {
-        cout << i + 1 <<".[" << tiendaDeArmas[i].nombre << ", poder de ataque: "<< tiendaDeArmas[i].poderDeAtaque << ", requisito: " << toStr(tiendaDeArmas[i].requisito)<< " x5" << endl;
+        cout << i + 1 <<".[" << tiendaDeArmas[i].nombre << ", poder de ataque: "<< tiendaDeArmas[i].poderDeAtaque << ", requisito: " << toStr(tiendaDeArmas[i].requisito)<< " x5]" << endl;
     }
 }
 void forjaDeArmaduras(){
@@ -763,7 +763,7 @@ void chequearEstadisticas(){
 void descansar(){
     if(personaje.vida <= 100){
         personaje.vida = 100;
-        cout << "Vida restaurada!" << endl;
+        cout << "Vida restaurada y energia!" << endl;
     }else{
         cout << "Has conservado la vida que has ganado!" << endl;
     }
