@@ -59,7 +59,6 @@ struct Personaje{
     float capacidadDeRecoleccion;
 
 }personaje;
-
 struct Enemigo{
     string nombre;
     float vida;
@@ -69,14 +68,11 @@ struct Enemigo{
     string drop;
 
 }enemigo;
-
-
 int numeroAleatorio(int minimo, int maximo) {
     srand(time(0));
     int numeroAleatorio = rand() % (maximo - minimo + 1) + minimo;
     return numeroAleatorio;
 }
-
 Enemigo creacionDeEnemigo(string nombre){
     Enemigo nuevoEnemigo;
 
@@ -112,7 +108,6 @@ Enemigo creacionDeEnemigo(string nombre){
 
     return nuevoEnemigo;
 }
-
 void creacionDePersonaje(){
     //Dar una bienvenida
 
@@ -133,7 +128,6 @@ void creacionDePersonaje(){
     system("pause");
     system("cls");
 }
-
 int defensaTotal(){
     int defensaTotal;
     defensaTotal = personaje.armadura.defensa + personaje.defensa;
@@ -533,8 +527,8 @@ void dropDeEnemigos(Enemigo tipoDeEnemigo){
     }
 }
 void recolectar(){
-    cout << "Has encontrado un par de objetos (-10 de energia)" << endl;
-    personaje.energia -= 10;
+    cout << "Has encontrado un par de objetos (-35 de energia)" << endl;
+    personaje.energia -= 35;
     int cantidadARecolectar = capacidadDeRecoleccion(), numero;
     for (int i = 0; i < cantidadARecolectar; ++i) {
         numero = numeroAleatorio(1,3);
@@ -565,14 +559,12 @@ bool cazarMonstruos(){
                 if (resultado){
                     dropDeEnemigos(slime);
                     agregarAInventario(POCION_DE_VIDA);
-                    agregarAInventario(POCION_DE_DEFENSA);
                 }
                 break;
             case 2:
                 resultado = batalla(esqueleto);
                 if (resultado){
                     dropDeEnemigos(slime);
-                    agregarAInventario(POCION_DE_VIDA);
                     agregarAInventario(POCION_DE_DEFENSA);
                 }
                 break;
@@ -581,14 +573,12 @@ bool cazarMonstruos(){
                 if (resultado){
                     dropDeEnemigos(slime);
                     agregarAInventario(POCION_DE_VIDA);
-                    agregarAInventario(POCION_DE_DEFENSA);
                 }
                 break;
             case 4:
                 resultado = batalla(golem);
                 if (resultado){
-                    dropDeEnemigos(slime);
-                    agregarAInventario(POCION_DE_VIDA);
+                    dropDeEnemigos(golem);
                     agregarAInventario(POCION_DE_DEFENSA);
                 }
                 break;
@@ -769,19 +759,15 @@ void chequearEstadisticas(){
     cout << "Arma equipada: " << personaje.arma.nombre << endl;
     cout << "Armadura equipada: " << personaje.armadura.nombre << endl;
     cout << "Herramienta equipada: " << personaje.herramienta.nombre << endl;
-    system ("pause");
-    system ("cls");
 }
 void descansar(){
     if(personaje.vida <= 100){
         personaje.vida = 100;
+        cout << "Vida restaurada!" << endl;
     }else{
         cout << "Has conservado la vida que has ganado!" << endl;
     }
     personaje.energia = 100;
-
-    system("pause");
-    system("cls");
 }
 void consultarInventarioObjeto(){
     for (int i = 0; i < 5; ++i) {
@@ -837,7 +823,7 @@ int main() {
         case 1: //RECOLECCION
             system("pause");
             system("cls");
-            if (personaje.energia >= 15){
+            if (personaje.energia >= 35){
                 recolectar();
             }else{
                 cout << "No tienes suficiente energia para eso" << endl;
@@ -891,37 +877,7 @@ int main() {
     cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
     cout << "Dias transcurridos: "<< diasPasados << endl;
 
-/*
-//BATALLA
-    if (personaje.energia >= 40){
-        if (cazarMonstruos()){
-            monstruosDerrotados++;
-        }else{
-            gameOver = true;
-        }
-    }else{
-        cout << "No tienes suficiente energia para eso" << endl;
-    }
 
-//RECOLECCION
-    if (personaje.energia >= 15){
-        recolectar();
-    }else{
-        cout << "No tienes suficiente energia para eso" << endl;
-    }
-
-
-//CREAR / EQUIPAR
-crearEquipo();
-
-//CHEQUEAR ESTADISTICAS
-chequearEstadisticas();
-
-//DESCANSAR
-descansar();
-diasPasados++;
-
-*/
 
     return 0;
 }
