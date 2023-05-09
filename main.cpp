@@ -30,18 +30,26 @@ using namespace std;
 struct Armamento {
     string nombre;
     int poderDeAtaque;
+    Items requisito;
 };
 
 struct Equipamiento {
     string nombre;
     int defensa;
+    Items requisito;
+};
+struct Herramientas {
+    string nombre;
+    int capacidadDeRecoleccion;
+    Items requisito;
 };
 
 struct Personaje{
     Slot consumibles[2] = {{POCION_DE_VIDA, 3}, {POCION_DE_DEFENSA, 3}};
     Slot objetos[5] = {{MINERAL, 0}, {BABA, 0}, {HUESO, 0}, {MADERA, 0}, {PIEDRA, 0}};
     Armamento arma = {"Espada basica", 10};
-    Equipamiento armadura = {"Equipo basico", 20};
+    Equipamiento armadura = {"Equipo basico", 10};
+    Herramientas herramienta = {"Guantes basicos", 3};
 
     string nombre;
     float vida;
@@ -118,7 +126,7 @@ void creacionDePersonaje(){
     personaje.ataque = 20;
     personaje.energia = 100;
     personaje.vida = 100;
-    personaje.capacidadDeRecoleccion = 10;
+    personaje.capacidadDeRecoleccion = 2;
 
     cout << "Se ha creado el personaje!" << endl;
 
@@ -126,15 +134,20 @@ void creacionDePersonaje(){
     system("cls");
 }
 
-int calculoDeDefensa(){
+int defensaTotal(){
     int defensaTotal;
     defensaTotal = personaje.armadura.defensa + personaje.defensa;
     return defensaTotal;
 }
-int calculoDePoder(){
+int poderTotal(){
     int poderTotal;
     poderTotal = personaje.arma.poderDeAtaque + personaje.ataque;
     return poderTotal;
+}
+int capacidadDeRecoleccion(){
+    int cantidad;
+    cantidad = personaje.capacidadDeRecoleccion + personaje.herramienta.capacidadDeRecoleccion;
+    return cantidad;
 }
 
 bool golpeara(int porcentajeDeQueGolpee){
@@ -246,9 +259,9 @@ int consultarInventarioConsumible(){
 bool batalla(Enemigo tipoDeEnemigo){
     int accionDeEnemigo;
     int accionDelPersonaje;
-    float defensaDelPersonaje = calculoDeDefensa();
+    float defensaDelPersonaje = defensaTotal();
     float defensaDelEnemigo = tipoDeEnemigo.defensa;
-    float ataqueDelPersonaje = calculoDePoder();
+    float ataqueDelPersonaje = poderTotal();
     float ataqueDelEnemigo = tipoDeEnemigo.ataque;
     float vidaDelEnemigo = tipoDeEnemigo.vida;
 
@@ -312,8 +325,8 @@ bool batalla(Enemigo tipoDeEnemigo){
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender! (+" << (calculoDeDefensa()) / 2 << ")" << endl;
-                    defensaDelPersonaje = (calculoDeDefensa()/2);
+                    cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
+                    defensaDelPersonaje = (defensaTotal() / 2);
                     //cuando ataca el enemigo
                     if (vidaDelEnemigo > 0){
                         cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
@@ -434,8 +447,8 @@ bool batalla(Enemigo tipoDeEnemigo){
                     }
                     break;
                 case 3:
-                    cout << "Te vas a defender! (+" << (calculoDeDefensa()) / 2 << ")" << endl;
-                    defensaDelPersonaje += (calculoDeDefensa()/2);
+                    cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
+                    defensaDelPersonaje += (defensaTotal() / 2);
                     //cuando se defiende el enemigo
                     if (vidaDelEnemigo > 0){
                         cout << "El enemigo se ha defendido! (+"<< 10<<")" << endl;
@@ -524,7 +537,7 @@ void dropDeEnemigos(Enemigo tipoDeEnemigo){
 void recolectar(){
     cout << "Has encontrado un par de objetos (-10 de energia)" << endl;
     personaje.energia -= 10;
-    int cantidadARecolectar = personaje.capacidadDeRecoleccion, numero;
+    int cantidadARecolectar = capacidadDeRecoleccion(), numero;
     for (int i = 0; i < cantidadARecolectar; ++i) {
         numero = numeroAleatorio(1,3);
         switch (numero) {
@@ -584,24 +597,214 @@ bool cazarMonstruos(){
         }
     return resultado;
 }
-//todo Hacer la creacion de equipo
-void crearEquipo(){
+void forjaDeArmas(){
+    Armamento tiendaDeArmas[3];
+    tiendaDeArmas[0] = {"Espada de madera", 20, MADERA};
+    tiendaDeArmas[1] = {"Mazo", 40, PIEDRA};
+    tiendaDeArmas[2] = {"Espada de hueso", 60, HUESO};
+
+    cout << "<-----------*--- ARMAS ---*----------->" << endl;
+                //MOSTRAR armas
+    for (int i = 0; i < 3; ++i) {
+        cout << i + 1 <<".[" << tiendaDeArmas[i].nombre << ", poder de ataque: "<< tiendaDeArmas[i].poderDeAtaque << ", requisito: " << toStr(tiendaDeArmas[i].requisito)<< " x5" << endl;
+    }
+}
+void forjaDeArmaduras(){
+    Equipamiento tiendaDeArmaduras[3];
+    tiendaDeArmaduras[0] = {"Armadura robusta", 20, MADERA};
+    tiendaDeArmaduras[1] = {"Armadura dura", 40, MINERAL};
+    tiendaDeArmaduras[2] = {"Armadura de muertos", 60, HUESO};
+
+    cout << "<-----------*--- ARMADURAS ---*----------->" << endl;
+    //MOSTRAR armaduras
+    for (int i = 0; i < 3; ++i) {
+        cout << i + 1 <<".[" << tiendaDeArmaduras[i].nombre << ", defensa: "<< tiendaDeArmaduras[i].defensa << ", requisito: " << toStr(tiendaDeArmaduras[i].requisito) << " x5]" << endl;
+    }
+}
+void forjaDeHerramientas(){
+    Herramientas tiendaDeHerramientas[3];
+    tiendaDeHerramientas[0] = {"Guantes pegajosos", 6, BABA};
+    tiendaDeHerramientas[1] = {"Pala", 8, MADERA};
+    tiendaDeHerramientas[2] = {"Pico", 10, HUESO};
+
+    cout << "<-----------*--- HERRAMIENTAS ---*----------->" << endl;
+    //MOSTRAR herramientas
+    for (int i = 0; i < 3; ++i) {
+        cout << i + 1 <<".[" << tiendaDeHerramientas[i].nombre << ", capacidad de recoleccion: "<< tiendaDeHerramientas[i].capacidadDeRecoleccion << ", requisito: " << toStr(tiendaDeHerramientas[i].requisito) << " x5]" << endl;
+    }
+}
+void crearArmas(){
+    int crear;
     //mostrar lista de mejoras con sus requisitos
 
-    //preguntar que quiere craftear(upgradear)
+    forjaDeArmas();
+    cout << "Cual deseas crear? [1,2,3] o ninguno [4]" << endl;
+    cin >> crear;
+    switch (crear) {
+        case 1:
+            if (personaje.objetos[3].cantidad >= 5){
+                personaje.objetos[3].cantidad -= 5;
+                personaje.arma = {"Espada de madera", 20};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+        break;
+        case 2:
+            if (personaje.objetos[4].cantidad >= 5){
+                personaje.objetos[4].cantidad -= 5;
+                personaje.arma = {"Mazo", 40};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                 cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+            case 3:
+                 if (personaje.objetos[2].cantidad >= 5){
+                     personaje.objetos[2].cantidad -= 5;
+                     personaje.arma = {"Espada de hueso", 60};
+                     cout << "Ten y no mueras!" << endl;
+                 }else{
+                    cout << "No tienes los items para crearlo" << endl;
+                    }
+                    break;
+            default:
+                cout << "Hasta pronto!" << endl;
+            break;
 
-    //verificar si tiene los requisitos
-
-    //
+    system("pause");
+    system("cls");
+    }
 }
+void crearArmaduras(){
+    int crear;
+    //mostrar lista de mejoras con sus requisitos
+
+    forjaDeArmaduras();
+    cout << "Cual deseas crear? [1,2,3] o ninguno [4]" << endl;
+    cin >> crear;
+    switch (crear) {
+        case 1:
+            if (personaje.objetos[3].cantidad >= 5){
+                personaje.objetos[3].cantidad -= 5;
+                personaje.armadura = {"Armadura robusta", 20};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        case 2:
+            if (personaje.objetos[0].cantidad >= 5){
+                personaje.objetos[0].cantidad -= 5;
+                personaje.armadura = {"Armadura dura", 40};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        case 3:
+            if (personaje.objetos[2].cantidad >= 5){
+                personaje.objetos[2].cantidad -= 5;
+                personaje.armadura = {"Armadura de muertos", 60};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        default:
+            cout << "Hasta pronto!" << endl;
+            break;
+
+            system("pause");
+            system("cls");
+    }
+}
+void crearHerramientas(){
+    int crear;
+    //mostrar lista de mejoras con sus requisitos
+
+    forjaDeHerramientas();
+    cout << "Cual deseas crear? [1,2,3] o ninguno [4]" << endl;
+    cin >> crear;
+    switch (crear) {
+        case 1:
+            if (personaje.objetos[1].cantidad >= 5){
+                personaje.objetos[1].cantidad -= 5;
+                personaje.herramienta = {"Guantes pegajosos", 6};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        case 2:
+            if (personaje.objetos[3].cantidad >= 5){
+                personaje.objetos[3].cantidad -= 5;
+                personaje.herramienta = {"Pala", 8};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        case 3:
+            if (personaje.objetos[2].cantidad >= 5){
+                personaje.objetos[2].cantidad -= 5;
+                personaje.herramienta = {"Pico", 10};
+                cout << "Ten y no mueras!" << endl;
+            }else{
+                cout << "No tienes los items para crearlo" << endl;
+            }
+            break;
+        default:
+            cout << "Hasta pronto!" << endl;
+            break;
+    }
+    system("pause");
+    system("cls");
+}
+void crearEquipo(){
+    int opcion;
+    cout << "EH! Has vuelto, crei que tu craneo ya era un florero.. Que quieres mirar?" << endl;
+    cout << "1.Armas" << endl;
+    cout << "2.Armaduras" << endl;
+    cout << "3.Herramientas" << endl;
+    cout << "4.Salir" << endl;
+    cin >> opcion;
+    switch (opcion) {
+        case 1:
+            crearArmas();
+            break;
+        case 2:
+            crearArmaduras();
+            break;
+        case 3:
+            crearHerramientas();
+            break;
+        default:
+            cout << "Cuidate hijo" << endl;
+    }
+}
+void chequearEstadisticas(){
+    cout << "Nombre: " << personaje.nombre << endl;
+    cout << "Vida: " << personaje.vida << endl;
+    cout << "Energia: " << personaje.energia << endl;
+    cout << "Capacidad de recoleccion: " << capacidadDeRecoleccion() << endl;
+    cout << "Ataque total: " << poderTotal() << endl;
+    cout << "Defensa total: " << defensaTotal() << endl;
+    cout << "Arma equipada: " << personaje.arma.nombre << endl;
+    cout << "Armadura equipada: " << personaje.armadura.nombre << endl;
+    cout << "Herramienta equipada: " << personaje.herramienta.nombre << endl;
+    system ("pause");
+    system ("cls");
+}
+
 int main() {
     srand(time(0));
     int monstruosDerrotados = 0, diasPasados = 0;
     bool gameOver = false;
     creacionDePersonaje();
 
-
-//BATALLA //todo debe ser contra un enemigo aleatoria (hacer)
+/*
+//BATALLA
     if (personaje.energia >= 30){
         if (cazarMonstruos()){
             monstruosDerrotados++;
@@ -612,14 +815,28 @@ int main() {
         cout << "No tienes suficiente energia para eso" << endl;
     }
 
-//RECOLECCION todo Los items a agarrar son aleatorios (hacer)
+//RECOLECCION
     if (personaje.energia >= 15){
         recolectar();
     }else{
         cout << "No tienes suficiente energia para eso" << endl;
     }
+*/
+
+//CREAR / EQUIPAR
+personaje.objetos[2].cantidad = 100000;
+chequearEstadisticas();
+crearArmas();
+chequearEstadisticas();
+crearArmaduras();
+chequearEstadisticas();
+crearHerramientas();
+chequearEstadisticas();
+
+//CHEQUEAR ESTADISTICAS
 
 
+//DESCANSAR
 
     return 0;
 }
