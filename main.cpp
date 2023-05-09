@@ -263,7 +263,7 @@ bool batalla(Enemigo tipoDeEnemigo){
         if (accionDeEnemigo <= 2){
             cout << "El enemigo te atacara! que haras?" << endl;
             cout << tipoDeEnemigo.nombre << " [Vida: " << vidaDelEnemigo << "] " << "[Defensa: "<< defensaDelEnemigo<< "]"<< endl;
-            cout << personaje.nombre << " [Vida: " << personaje.vida << "]" << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
+            cout << personaje.nombre << " [Vida: " << personaje.vida << "] " << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
             cout << "1.[Ataque pesado (40%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
             cin >> accionDelPersonaje;
             switch (accionDelPersonaje) {
@@ -564,14 +564,14 @@ bool cazarMonstruos(){
             case 2:
                 resultado = batalla(esqueleto);
                 if (resultado){
-                    dropDeEnemigos(slime);
+                    dropDeEnemigos(esqueleto);
                     agregarAInventario(POCION_DE_DEFENSA);
                 }
                 break;
             case 3:
                 resultado = batalla(arbol);
                 if (resultado){
-                    dropDeEnemigos(slime);
+                    dropDeEnemigos(arbol);
                     agregarAInventario(POCION_DE_VIDA);
                 }
                 break;
