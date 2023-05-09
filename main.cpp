@@ -149,7 +149,6 @@ int capacidadDeRecoleccion(){
     cantidad = personaje.capacidadDeRecoleccion + personaje.herramienta.capacidadDeRecoleccion;
     return cantidad;
 }
-
 bool golpeara(int porcentajeDeQueGolpee){
     bool golpeara;
     float indiceDeGolpe = porcentajeDeQueGolpee/10;
@@ -161,7 +160,6 @@ bool golpeara(int porcentajeDeQueGolpee){
     }
     return golpeara;
 }
-
 string toStr(Items item) {
     switch (item) {
         case POCION_DE_DEFENSA:
@@ -513,8 +511,8 @@ bool batalla(Enemigo tipoDeEnemigo){
     }
     if (vidaDelEnemigo <= 0){
         cout << "Lo has derrotado!" << endl;
-        cout << "La batalla te ha agotado un poco... (-30 de energia)" << endl;
-        personaje.energia -= 30;
+        cout << "La batalla te ha agotado un poco... (-40 de energia)" << endl;
+        personaje.energia -= 40;
         ganaste = true;
     }
     return ganaste;
@@ -761,8 +759,39 @@ void crearHerramientas(){
     system("pause");
     system("cls");
 }
+void chequearEstadisticas(){
+    cout << "Nombre: " << personaje.nombre << endl;
+    cout << "Vida: " << personaje.vida << endl;
+    cout << "Energia: " << personaje.energia << endl;
+    cout << "Capacidad de recoleccion: " << capacidadDeRecoleccion() << endl;
+    cout << "Ataque total: " << poderTotal() << endl;
+    cout << "Defensa total: " << defensaTotal() << endl;
+    cout << "Arma equipada: " << personaje.arma.nombre << endl;
+    cout << "Armadura equipada: " << personaje.armadura.nombre << endl;
+    cout << "Herramienta equipada: " << personaje.herramienta.nombre << endl;
+    system ("pause");
+    system ("cls");
+}
+void descansar(){
+    if(personaje.vida <= 100){
+        personaje.vida = 100;
+    }else{
+        cout << "Has conservado la vida que has ganado!" << endl;
+    }
+    personaje.energia = 100;
+
+    system("pause");
+    system("cls");
+}
+void consultarInventarioObjeto(){
+    for (int i = 0; i < 5; ++i) {
+        cout << "[" << toStr(personaje.objetos[i].item) << " x" << personaje.objetos[i].cantidad<< "] ";
+    }
+}
 void crearEquipo(){
     int opcion;
+    consultarInventarioObjeto();
+    cout << endl;
     cout << "EH! Has vuelto, crei que tu craneo ya era un florero.. Que quieres mirar?" << endl;
     cout << "1.Armas" << endl;
     cout << "2.Armaduras" << endl;
@@ -783,29 +812,88 @@ void crearEquipo(){
             cout << "Cuidate hijo" << endl;
     }
 }
-void chequearEstadisticas(){
-    cout << "Nombre: " << personaje.nombre << endl;
-    cout << "Vida: " << personaje.vida << endl;
-    cout << "Energia: " << personaje.energia << endl;
-    cout << "Capacidad de recoleccion: " << capacidadDeRecoleccion() << endl;
-    cout << "Ataque total: " << poderTotal() << endl;
-    cout << "Defensa total: " << defensaTotal() << endl;
-    cout << "Arma equipada: " << personaje.arma.nombre << endl;
-    cout << "Armadura equipada: " << personaje.armadura.nombre << endl;
-    cout << "Herramienta equipada: " << personaje.herramienta.nombre << endl;
-    system ("pause");
-    system ("cls");
+//todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
+void bienvenida(){
+
 }
 
 int main() {
     srand(time(0));
-    int monstruosDerrotados = 0, diasPasados = 0;
-    bool gameOver = false;
+    int monstruosDerrotados = 0, diasPasados = 0, opcion;
+    bool gameOver = false, victoria = false;
     creacionDePersonaje();
+
+    do {
+    cout << "Estas en la aldea, que quieres hacer?" << endl;
+    cout << "1. Recolectar" << endl;
+    cout << "2. Cazar Monstruos" << endl;
+    cout << "3. Crear/Equipar" << endl;
+    cout << "4. Chequear Estadisticas" << endl;
+    cout << "5. Descansar" << endl;
+    cout << "6. Enfrentarte al Rey Demonio" << endl;
+    cin >> opcion;
+
+    switch (opcion) {
+        case 1: //RECOLECCION
+            system("pause");
+            system("cls");
+            if (personaje.energia >= 15){
+                recolectar();
+            }else{
+                cout << "No tienes suficiente energia para eso" << endl;
+            }
+            break;
+        case 2: //CAZAR MONSTRUOS
+            system("pause");
+            system("cls");
+            if (personaje.energia >= 40){
+                if (cazarMonstruos()){
+                    monstruosDerrotados++;
+                }else{
+                    gameOver = true;
+                }
+            }else{
+                cout << "No tienes suficiente energia para eso" << endl;
+            }
+            break;
+        case 3: //CREAR / EQUIPAR
+            system("pause");
+            system("cls");
+            crearEquipo();
+            break;
+        case 4: //CHEQUEAR ESTADISTICAS
+            system("pause");
+            system("cls");
+            chequearEstadisticas();
+            break;
+        case 5://DESCANSAR
+            system("pause");
+            system("cls");
+            descansar();
+            diasPasados++;
+            break;
+        case 6://REY DEMONIO //todo Hacer la pela contra EL BOSS FINAL
+            system("pause");
+            system("cls");
+            cout << "Area en construccion" << endl;
+            break;
+        default:
+            cout << "Opcion incorrecta" << endl;
+            break;
+    }
+    system("pause");
+    system("cls");
+    }while(!gameOver && !victoria);
+
+    //todo Hacer si hubo victoria que aparezca "ganaste" y el puntaje, y si no, perdiste y le puntaje
+
+    cout << "------------------- |Puntaje final| ------------------- " << endl;
+    cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
+    cout << "Dias transcurridos: "<< diasPasados << endl;
 
 /*
 //BATALLA
-    if (personaje.energia >= 30){
+    if (personaje.energia >= 40){
         if (cazarMonstruos()){
             monstruosDerrotados++;
         }else{
@@ -821,22 +909,19 @@ int main() {
     }else{
         cout << "No tienes suficiente energia para eso" << endl;
     }
-*/
+
 
 //CREAR / EQUIPAR
-personaje.objetos[2].cantidad = 100000;
-chequearEstadisticas();
-crearArmas();
-chequearEstadisticas();
-crearArmaduras();
-chequearEstadisticas();
-crearHerramientas();
-chequearEstadisticas();
+crearEquipo();
 
 //CHEQUEAR ESTADISTICAS
-
+chequearEstadisticas();
 
 //DESCANSAR
+descansar();
+diasPasados++;
+
+*/
 
     return 0;
 }
