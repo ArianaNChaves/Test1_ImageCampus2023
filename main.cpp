@@ -511,6 +511,279 @@ bool batalla(Enemigo tipoDeEnemigo){
     }
     return ganaste;
 }
+bool batallaReyDemonio(Enemigo tipoDeEnemigo){
+    int accionDeEnemigo;
+    int accionDelPersonaje;
+    bool flag = false;
+    float defensaDelPersonaje = defensaTotal();
+    float defensaDelEnemigo = tipoDeEnemigo.defensa;
+    float ataqueDelPersonaje = poderTotal();
+    float ataqueDelEnemigo = tipoDeEnemigo.ataque;
+    float vidaDelEnemigo = tipoDeEnemigo.vida;
+    if (vidaDelEnemigo <= 500 && !flag){
+        cout << "Que haras inutil cuando enfrentes mi verdadero poder?" << endl;
+        cout << "El enemigo ha entrado en frenezi y ha aumentado su poder! (+30 de poder) (+500 de vida) (+200 de defensa)" << endl;
+        ataqueDelEnemigo += 30;
+        defensaDelEnemigo += 200;
+        vidaDelEnemigo += 500;
+        flag = true;
+        system("pause");
+    }
+
+    while(personaje.vida > 0 && vidaDelEnemigo > 0){
+        //tiro un dado, si queda entre 1 o 2 el enemigo ataca, si saca 3 el enemigo se defiende
+        accionDeEnemigo = numeroAleatorio(1, 3);
+        if (accionDeEnemigo <= 2){
+            cout << "El enemigo te atacara! que haras?" << endl;
+            cout << tipoDeEnemigo.nombre << " [Vida: " << vidaDelEnemigo << "] " << "[Defensa: "<< defensaDelEnemigo<< "]"<< endl;
+            cout << personaje.nombre << " [Vida: " << personaje.vida << "] " << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
+            cout << "1.[Ataque pesado (40%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
+            cin >> accionDelPersonaje;
+            switch (accionDelPersonaje) {
+                case 1:
+                    //lo que hace el personaje
+                    if (golpeara(40)){
+                        cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje * 3 << "!!"<< endl;
+
+                        if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
+                            vidaDelEnemigo -= ((ataqueDelPersonaje * 3) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
+                        }else{
+                            defensaDelEnemigo -= (ataqueDelPersonaje * 3);
+                        }
+                    }else{
+                        cout << "Has fallado el ataque!" << endl;
+                    }
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+                case 2:
+                    //lo que hace el personaje
+                    if (golpeara(40)){
+                        cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
+                        if ((ataqueDelPersonaje) >= defensaDelEnemigo){
+                            vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
+                        }else{
+                            defensaDelEnemigo -= (ataqueDelPersonaje);
+                        }
+                    }else{
+                        cout << "Has fallado el ataque!" << endl;
+                    }
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+                case 3:
+                    cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
+                    defensaDelPersonaje = (defensaTotal() / 2);
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+                case 4:
+                    switch (consultarInventarioConsumible()) {
+                        case 1: //tomar pocion de vida
+                            personaje.vida += 100;
+                            cout << "(+100 de vida)" << endl;
+                            //cuando ataca el enemigo
+                            if (vidaDelEnemigo > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 2: //tomar pocion de defensa
+                            defensaDelPersonaje += 100;
+                            cout << "(+100 de defensa)" << endl;
+                            //cuando ataca el enemigo
+                            if (vidaDelEnemigo > 0){
+                                cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                                if (ataqueDelEnemigo >= defensaDelPersonaje){
+                                    personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                                    defensaDelPersonaje = 0;
+                                }else{
+                                    defensaDelPersonaje -= ataqueDelEnemigo;
+                                }
+                            }
+                            break;
+                        case 3: //salir
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 5:
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+                default:
+                    cout <<"Has torpezado y te han atacado!"<< endl;
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+            }
+        }else{
+            cout << "El enemigo se defendera! que haras?" << endl;
+            cout << tipoDeEnemigo.nombre << " [Vida: " << vidaDelEnemigo << "] " << "[Defensa: "<< defensaDelEnemigo<< "]"<< endl;
+            cout << personaje.nombre << " [Vida: " << personaje.vida << "]" << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
+            cout << "1.[Ataque pesado (40%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
+            cin >> accionDelPersonaje;
+            switch (accionDelPersonaje) {
+                case 1:
+                    //lo que hace el personaje
+                    if (golpeara(40)){
+                        cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje * 3 << "!!"<< endl;
+
+                        if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
+                            vidaDelEnemigo -= ((ataqueDelPersonaje * 3) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
+                        }else{
+                            defensaDelEnemigo -= (ataqueDelPersonaje * 3);
+                        }
+                    }else{
+                        cout << "Has fallado el ataque!" << endl;
+                    }
+                    //cuando se defiende el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                        defensaDelEnemigo += 50;
+                    }
+                    break;
+                case 2:
+                    //lo que hace el personaje
+                    if (golpeara(40)){
+                        cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
+                        if ((ataqueDelPersonaje) >= defensaDelEnemigo){
+                            vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
+                            defensaDelEnemigo = 0;
+                        }else{
+                            defensaDelEnemigo -= (ataqueDelPersonaje);
+                        }
+                    }else{
+                        cout << "Has fallado el ataque!" << endl;
+                    }
+                    //cuando se defiende el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                        defensaDelEnemigo += 50;
+                    }
+                    break;
+                case 3:
+                    cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
+                    defensaDelPersonaje += (defensaTotal() / 2);
+                    //cuando se defiende el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                        defensaDelEnemigo += 50;
+                    }
+                    break;
+                case 4:
+                    switch (consultarInventarioConsumible()) {
+                        case 1: //tomar pocion de vida
+                            personaje.vida += 100;
+                            cout << "(+100 de vida)" << endl;
+                            //cuando se defiende el enemigo
+                            if (vidaDelEnemigo > 0){
+                                cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                                defensaDelEnemigo += 50;
+                            }
+                            break;
+                        case 2: //tomar pocion de defensa
+                            defensaDelPersonaje += 100;
+                            cout << "(+100 de defensa)" << endl;
+                            //cuando se defiende el enemigo
+                            if (vidaDelEnemigo > 0){
+                                cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                                defensaDelEnemigo += 50;
+                            }
+                            break;
+                        case 3: //salir
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 5:
+                    //cuando se defiende el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout << "El enemigo se ha defendido! (+"<< 50<<")" << endl;
+                        defensaDelEnemigo += 50;
+                    }
+                    break;
+                default:
+                    //cuando ataca el enemigo
+                    if (vidaDelEnemigo > 0){
+                        cout <<"Has torpezado y te han atacado! (-"<<ataqueDelEnemigo<<")"<< endl;
+                        if (ataqueDelEnemigo >= defensaDelPersonaje){
+                            personaje.vida -= (ataqueDelEnemigo - defensaDelPersonaje);
+                            defensaDelPersonaje = 0;
+                        }else{
+                            defensaDelPersonaje -= ataqueDelEnemigo;
+                        }
+                    }
+                    break;
+            }
+        }
+        cout << "--------------------------------------------------------------------------------------" << endl;
+        system("pause");
+        system("cls");
+    }
+    bool ganaste;
+    if (personaje.vida <= 0){
+        cout << "Has perdido" << endl;
+        ganaste = false;
+    }
+    if (vidaDelEnemigo <= 0){
+        cout << "Lo has derrotado!" << endl;
+        cout << "La batalla te ha agotado un poco... (-40 de energia)" << endl;
+        personaje.energia -= 40;
+        ganaste = true;
+    }
+    return ganaste;
+}
 void dropDeEnemigos(Enemigo tipoDeEnemigo){
     cout << "Te han dropeado unos objetos" << endl;
     if (tipoDeEnemigo.nombre == "Slime"){
@@ -798,6 +1071,21 @@ void crearEquipo(){
             cout << "Cuidate hijo" << endl;
     }
 }
+bool reyDemonio(){
+    bool resultado;
+    Enemigo reyDemonio;
+    reyDemonio.nombre = "Golden Retrevier";
+    reyDemonio.ataque = 50;
+    reyDemonio.defensa = 1000;
+    reyDemonio.vida = 1000;
+    if (batallaReyDemonio(reyDemonio)){
+        resultado = true;
+    }else{
+        resultado = false;
+    }
+
+    return resultado;
+}
 //todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
 void bienvenida(){
 
@@ -861,7 +1149,11 @@ int main() {
         case 6://REY DEMONIO //todo Hacer la pela contra EL BOSS FINAL
             system("pause");
             system("cls");
-            cout << "Area en construccion" << endl;
+            if(reyDemonio()){
+             victoria = true;
+            }else{
+                gameOver = true;
+            }
             break;
         default:
             cout << "Opcion incorrecta" << endl;
