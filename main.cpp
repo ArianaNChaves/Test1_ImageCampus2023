@@ -1102,7 +1102,7 @@ bool reyDemonio(){
 }
 //todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
 void bienvenida(){
-    cout << "Bienvenido Heroe! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
+    cout << "Bienvenido "<< personaje.nombre << "! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
     cout << "Pero antes unos consejos que te ayudar en la travesia:"<< endl;
     cout << "1). Nuestras pociones de vida y de defensa son especiales! una vez usadas no pierden el efecto dado aunque descanses."<< endl;
     cout << "2). Equivocarte en las batallas te saldra caro! te heriran por tus errores."<< endl;
@@ -1119,6 +1119,7 @@ int main() {
     int monstruosDerrotados = 0, diasPasados = 0, opcion;
     bool gameOver = false, victoria = false;
     creacionDePersonaje();
+    bienvenida();
 
     do {
     cout << "Estas en la aldea, que quieres hacer?" << endl;
