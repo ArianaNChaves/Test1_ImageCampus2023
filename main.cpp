@@ -8,7 +8,7 @@
  * que las peleas sean por turno (dentro de un while o do-while)
  * ADENTRO de las peleas no cuenta la energia, si no que se resta cierto monto al terminar una (quizas varia la cantidad que te saca segun la dificultad)
  * revisar estadisticas
- * estado de frenezi de los enemigos, cuando bajan a cierta cantidad de vida pegan mas fuerte
+ * estado de frenesi de los enemigos, cuando bajan a cierta cantidad de vida pegan mas fuerte
  */
 using namespace std;
 
@@ -534,8 +534,8 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
 
     while(personaje.vida > 0 && vidaDelEnemigo > 0){
         if (vidaDelEnemigo <= 500 && !flag){
-            cout << "Que haras inutil cuando enfrentes mi verdadero poder?" << endl;
-            cout << "El enemigo ha entrado en frenezi y ha aumentado su poder! (+30 de poder) (+500 de vida) (+200 de defensa)" << endl;
+            cout << "Que haras cuando enfrentes mi verdadero poder?, inutil" << endl;
+            cout << "El enemigo ha entrado en frenesi y ha aumentado su poder! (+30 de poder) (+500 de vida) (+200 de defensa)" << endl;
             ataqueDelEnemigo += 30;
             defensaDelEnemigo += 200;
             vidaDelEnemigo += 300;
@@ -603,7 +603,7 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
                     break;
                 case 3:
                     cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
-                    defensaDelPersonaje = (defensaTotal() / 2);
+                    defensaDelPersonaje += (defensaTotal() / 2);
                     //cuando ataca el enemigo
                     if (vidaDelEnemigo > 0){
                         cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
@@ -1049,7 +1049,7 @@ void chequearEstadisticas(){
 void descansar(){
     if(personaje.vida <= 100){
         personaje.vida = 100;
-        cout << "Vida restaurada y energia!" << endl;
+        cout << "Vida y energia restaurada!" << endl;
     }else{
         cout << "Has conservado la vida que has ganado!" << endl;
     }
@@ -1101,10 +1101,10 @@ bool reyDemonio(){
 void bienvenida(){
     cout << "Bienvenido "<< personaje.nombre << "! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
     cout << "Pero antes unos consejos que te pueden ayudar en la travesia:"<< endl;
-    cout << "1). Nuestras pociones de vida y de defensa son especiales! una vez usadas no pierden el efecto dado aunque descanses."<< endl;
-    cout << "2). Equivocarte en las batallas te saldra caro! te heriran por tus errores."<< endl;
-    cout << "3). Cada golpe que des pueden fallar! En batalla se te mostrara la chance de golpeo."<< endl;
-    cout << "4). Cuando recolectes un item este sera aleatorio! y se recogera una cantidad segun tu habilidad de recoleccion."<< endl;
+    cout << "1). Nuestras pociones de vida y de defensa son especiales! Una vez usadas no pierden el efecto dado aunque descanses."<< endl;
+    cout << "2). Equivocarte en las batallas te saldra caro! Te heriran por tus errores."<< endl;
+    cout << "3). Cada golpe que des puede fallar! En batalla se te mostrara la chance de golpeo."<< endl;
+    cout << "4). Cuando recolectes un item este sera aleatorio y se recogera una cantidad segun tu habilidad de recoleccion."<< endl;
     cout << "5). No te procupes por morir que ya tenemos un ataud listo para recibirte y esperar a otro heroe :D"<< endl;
     cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
