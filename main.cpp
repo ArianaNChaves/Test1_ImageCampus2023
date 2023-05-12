@@ -69,7 +69,7 @@ struct Enemigo{
 
 }enemigo;
 int numeroAleatorio(int minimo, int maximo) {
-    srand(time(0));
+  //todo  srand(time(0));
     int numeroAleatorio = rand() % (maximo - minimo + 1) + minimo;
     return numeroAleatorio;
 }
@@ -124,7 +124,7 @@ void creacionDePersonaje(){
     personaje.capacidadDeRecoleccion = 2;
 
     cout << "Se ha creado el personaje!" << endl;
-
+    cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
 }
@@ -147,6 +147,8 @@ bool golpeara(int porcentajeDeQueGolpee){
     bool golpeara;
     float indiceDeGolpe = porcentajeDeQueGolpee/10;
     int chance = numeroAleatorio(1,10);
+    cout << "Indice de golpe: " << indiceDeGolpe << endl;
+    cout << "Chance: "  << chance << endl;
     if (indiceDeGolpe >= chance){
         golpeara = true;
     }else{
@@ -189,11 +191,11 @@ void agregarAInventario(Items item) {
             cout << toStr(item)<< " agregado correctamente." << endl;
             break;
         case BABA:
-            personaje.objetos[1].cantidad += 1;
+            personaje.objetos[1].cantidad += 3;
             cout << toStr(item)<< " agregado correctamente." << endl;
             break;
         case HUESO:
-            personaje.objetos[2].cantidad += 1;
+            personaje.objetos[2].cantidad += 3;
             cout << toStr(item)<< " agregado correctamente." << endl;
             break;
         case MADERA:
@@ -294,7 +296,7 @@ bool batalla(Enemigo tipoDeEnemigo){
                     break;
                 case 2:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(90)){
                         cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
                         if ((ataqueDelPersonaje) >= defensaDelEnemigo){
                             vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
@@ -421,7 +423,7 @@ bool batalla(Enemigo tipoDeEnemigo){
                     break;
                 case 2:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(90)){
                         cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
                         if ((ataqueDelPersonaje) >= defensaDelEnemigo){
                             vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
@@ -520,29 +522,31 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
     float ataqueDelPersonaje = poderTotal();
     float ataqueDelEnemigo = tipoDeEnemigo.ataque;
     float vidaDelEnemigo = tipoDeEnemigo.vida;
-    if (vidaDelEnemigo <= 500 && !flag){
-        cout << "Que haras inutil cuando enfrentes mi verdadero poder?" << endl;
-        cout << "El enemigo ha entrado en frenezi y ha aumentado su poder! (+30 de poder) (+500 de vida) (+200 de defensa)" << endl;
-        ataqueDelEnemigo += 30;
-        defensaDelEnemigo += 200;
-        vidaDelEnemigo += 500;
-        flag = true;
-        system("pause");
-    }
+
 
     while(personaje.vida > 0 && vidaDelEnemigo > 0){
+        if (vidaDelEnemigo <= 500 && !flag){
+            cout << "Que haras inutil cuando enfrentes mi verdadero poder?" << endl;
+            cout << "El enemigo ha entrado en frenezi y ha aumentado su poder! (+30 de poder) (+500 de vida) (+200 de defensa)" << endl;
+            ataqueDelEnemigo += 30;
+            defensaDelEnemigo += 200;
+            vidaDelEnemigo += 300;
+            flag = true;
+            cout << "------------------------------------------------------------------------------- "<< endl;
+            system("pause");
+        }
         //tiro un dado, si queda entre 1 o 2 el enemigo ataca, si saca 3 el enemigo se defiende
         accionDeEnemigo = numeroAleatorio(1, 3);
         if (accionDeEnemigo <= 2){
             cout << "El enemigo te atacara! que haras?" << endl;
             cout << tipoDeEnemigo.nombre << " [Vida: " << vidaDelEnemigo << "] " << "[Defensa: "<< defensaDelEnemigo<< "]"<< endl;
             cout << personaje.nombre << " [Vida: " << personaje.vida << "] " << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
-            cout << "1.[Ataque pesado (40%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
+            cout << "1.[Ataque pesado (60%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
             cin >> accionDelPersonaje;
             switch (accionDelPersonaje) {
                 case 1:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(60)){
                         cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje * 3 << "!!"<< endl;
 
                         if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
@@ -567,7 +571,7 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
                     break;
                 case 2:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(90)){
                         cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
                         if ((ataqueDelPersonaje) >= defensaDelEnemigo){
                             vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
@@ -669,12 +673,12 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
             cout << "El enemigo se defendera! que haras?" << endl;
             cout << tipoDeEnemigo.nombre << " [Vida: " << vidaDelEnemigo << "] " << "[Defensa: "<< defensaDelEnemigo<< "]"<< endl;
             cout << personaje.nombre << " [Vida: " << personaje.vida << "]" << "[Defensa: "<< defensaDelPersonaje << "]"<< endl;
-            cout << "1.[Ataque pesado (40%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
+            cout << "1.[Ataque pesado (60%)] 2.[Ataque ligero (90%)] 3.[Defenderse] 4.[Inventario] 5.[Pasar turno]"<< endl;
             cin >> accionDelPersonaje;
             switch (accionDelPersonaje) {
                 case 1:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(60)){
                         cout << "Has golpeado fuerte con un poder de " << ataqueDelPersonaje * 3 << "!!"<< endl;
 
                         if ((ataqueDelPersonaje * 3) >= defensaDelEnemigo){
@@ -694,7 +698,7 @@ bool batallaReyDemonio(Enemigo tipoDeEnemigo){
                     break;
                 case 2:
                     //lo que hace el personaje
-                    if (golpeara(40)){
+                    if (golpeara(90)){
                         cout << "Has golpeado con un poder de " << ataqueDelPersonaje << "!!"<< endl;
                         if ((ataqueDelPersonaje) >= defensaDelEnemigo){
                             vidaDelEnemigo -= ((ataqueDelPersonaje) -defensaDelEnemigo);
@@ -932,7 +936,7 @@ void crearArmas(){
             default:
                 cout << "Hasta pronto!" << endl;
             break;
-
+            cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
     }
@@ -975,7 +979,7 @@ void crearArmaduras(){
         default:
             cout << "Hasta pronto!" << endl;
             break;
-
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
     }
@@ -1019,6 +1023,7 @@ void crearHerramientas(){
             cout << "Hasta pronto!" << endl;
             break;
     }
+    cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
 }
@@ -1075,20 +1080,28 @@ bool reyDemonio(){
     bool resultado;
     Enemigo reyDemonio;
     reyDemonio.nombre = "Golden Retrevier";
-    reyDemonio.ataque = 50;
-    reyDemonio.defensa = 1000;
+    reyDemonio.ataque = 35;
+    reyDemonio.defensa = 500;
     reyDemonio.vida = 1000;
     if (batallaReyDemonio(reyDemonio)){
         resultado = true;
     }else{
         resultado = false;
     }
-
     return resultado;
 }
 //todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
 void bienvenida(){
-
+    cout << "Bienvenido Heroe! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
+    cout << "Pero antes unos consejos que te ayudar en la travesia:"<< endl;
+    cout << "1). Nuestras pociones de vida y de defensa son especiales! una vez usadas no pierden el efecto dado aunque descanses."<< endl;
+    cout << "2). Equivocarte en las batallas te saldra caro! te heriran por tus errores."<< endl;
+    cout << "3). Cada golpes que des pueden fallar! En batalla se te mostrara la chance de golpeo."<< endl;
+    cout << "4). Cuando recolectes un item este sera aleatorio! y se recogera una cantidad segun tu habilidad de recoleccion."<< endl;
+    cout << "5). No te procupes por morir que ya tenemos un ataud listo para recibirte y esperar a otro heroe :D"<< endl;
+    cout << "------------------------------------------------------------------------------- "<< endl;
+    system("pause");
+    system("cls");
 }
 
 int main() {
@@ -1096,7 +1109,11 @@ int main() {
     int monstruosDerrotados = 0, diasPasados = 0, opcion;
     bool gameOver = false, victoria = false;
     creacionDePersonaje();
-
+    //kit dev :D
+    if (personaje.nombre == "ariana"){
+        personaje.ataque = 200;
+        personaje.defensa = 1000;
+    }
     do {
     cout << "Estas en la aldea, que quieres hacer?" << endl;
     cout << "1. Recolectar" << endl;
@@ -1109,6 +1126,7 @@ int main() {
 
     switch (opcion) {
         case 1: //RECOLECCION
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             if (personaje.energia >= 35){
@@ -1118,6 +1136,7 @@ int main() {
             }
             break;
         case 2: //CAZAR MONSTRUOS
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             if (personaje.energia >= 40){
@@ -1131,22 +1150,26 @@ int main() {
             }
             break;
         case 3: //CREAR / EQUIPAR
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             crearEquipo();
             break;
         case 4: //CHEQUEAR ESTADISTICAS
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             chequearEstadisticas();
             break;
         case 5://DESCANSAR
+            cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             descansar();
             diasPasados++;
             break;
-        case 6://REY DEMONIO //todo Hacer la pela contra EL BOSS FINAL
+        case 6://REY DEMONIO
+        cout << "------------------------------------------------------------------------------- "<< endl;
             system("pause");
             system("cls");
             if(reyDemonio()){
@@ -1159,17 +1182,26 @@ int main() {
             cout << "Opcion incorrecta" << endl;
             break;
     }
+        cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
     }while(!gameOver && !victoria);
 
-    //todo Hacer si hubo victoria que aparezca "ganaste" y el puntaje, y si no, perdiste y le puntaje
-
-    cout << "------------------- |Puntaje final| ------------------- " << endl;
-    cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
-    cout << "Dias transcurridos: "<< diasPasados << endl;
-
-
+    if (victoria){
+        cout << "------------------- |Puntaje final| ------------------- " << endl;
+        cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
+        cout << "Dias transcurridos: "<< diasPasados << endl;
+        cout << "------------------- |Has Ganado| ------------------- " << endl;
+        cout << "------------------------------------------------------------------------------- "<< endl;
+        system("pause");
+    }else{
+        cout << "------------------- |Puntaje final| ------------------- " << endl;
+        cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
+        cout << "Dias transcurridos: "<< diasPasados << endl;
+        cout << "------------------- |Perdiste| ------------------- " << endl;
+        cout << "------------------------------------------------------------------------------- "<< endl;
+        system("pause");
+    }
 
     return 0;
 }
