@@ -128,12 +128,11 @@ void creacionDePersonaje(){
         personaje.ataque = 200;
         personaje.vida = 1000;
         personaje.defensa = 1000;
-        cout << "Modo god" << endl;
+        cout << "Modo matambre a la pizza con pure" << endl;
     } else{
         cout << "Se ha creado el personaje!" << endl;
     }
-
-
+    
     cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
@@ -330,7 +329,7 @@ bool batalla(Enemigo tipoDeEnemigo){
                     break;
                 case 3:
                     cout << "Te vas a defender! (+" << (defensaTotal()) / 2 << ")" << endl;
-                    defensaDelPersonaje = (defensaTotal() / 2);
+                    defensaDelPersonaje += (defensaTotal() / 2);
                     //cuando ataca el enemigo
                     if (vidaDelEnemigo > 0){
                         cout << "El enemigo te ha golpeado! (-"<<ataqueDelEnemigo<<")" << endl;
@@ -1103,10 +1102,10 @@ bool reyDemonio(){
 //todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
 void bienvenida(){
     cout << "Bienvenido "<< personaje.nombre << "! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
-    cout << "Pero antes unos consejos que te ayudar en la travesia:"<< endl;
+    cout << "Pero antes unos consejos que te pueden ayudar en la travesia:"<< endl;
     cout << "1). Nuestras pociones de vida y de defensa son especiales! una vez usadas no pierden el efecto dado aunque descanses."<< endl;
     cout << "2). Equivocarte en las batallas te saldra caro! te heriran por tus errores."<< endl;
-    cout << "3). Cada golpes que des pueden fallar! En batalla se te mostrara la chance de golpeo."<< endl;
+    cout << "3). Cada golpe que des pueden fallar! En batalla se te mostrara la chance de golpeo."<< endl;
     cout << "4). Cuando recolectes un item este sera aleatorio! y se recogera una cantidad segun tu habilidad de recoleccion."<< endl;
     cout << "5). No te procupes por morir que ya tenemos un ataud listo para recibirte y esperar a otro heroe :D"<< endl;
     cout << "------------------------------------------------------------------------------- "<< endl;
