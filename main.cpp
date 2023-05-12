@@ -123,7 +123,17 @@ void creacionDePersonaje(){
     personaje.vida = 100;
     personaje.capacidadDeRecoleccion = 2;
 
-    cout << "Se ha creado el personaje!" << endl;
+    //kit dev :D
+    if (personaje.nombre == "ariana"){
+        personaje.ataque = 200;
+        personaje.vida = 1000;
+        personaje.defensa = 1000;
+        cout << "Modo god" << endl;
+    } else{
+        cout << "Se ha creado el personaje!" << endl;
+    }
+
+
     cout << "------------------------------------------------------------------------------- "<< endl;
     system("pause");
     system("cls");
@@ -866,7 +876,7 @@ void forjaDeArmas(){
     Armamento tiendaDeArmas[3];
     tiendaDeArmas[0] = {"Espada de madera", 20, MADERA};
     tiendaDeArmas[1] = {"Mazo", 40, PIEDRA};
-    tiendaDeArmas[2] = {"Espada de hueso", 60, HUESO};
+    tiendaDeArmas[2] = {"Espada de hueso", 80, HUESO};
 
     cout << "<-----------*--- ARMAS ---*----------->" << endl;
                 //MOSTRAR armas
@@ -878,7 +888,7 @@ void forjaDeArmaduras(){
     Equipamiento tiendaDeArmaduras[3];
     tiendaDeArmaduras[0] = {"Armadura robusta", 20, MADERA};
     tiendaDeArmaduras[1] = {"Armadura dura", 40, MINERAL};
-    tiendaDeArmaduras[2] = {"Armadura de muertos", 60, HUESO};
+    tiendaDeArmaduras[2] = {"Armadura de muertos", 80, HUESO};
 
     cout << "<-----------*--- ARMADURAS ---*----------->" << endl;
     //MOSTRAR armaduras
@@ -927,7 +937,7 @@ void crearArmas(){
             case 3:
                  if (personaje.objetos[2].cantidad >= 5){
                      personaje.objetos[2].cantidad -= 5;
-                     personaje.arma = {"Espada de hueso", 60};
+                     personaje.arma = {"Espada de hueso", 80};
                      cout << "Ten y no mueras!" << endl;
                  }else{
                     cout << "No tienes los items para crearlo" << endl;
@@ -970,7 +980,7 @@ void crearArmaduras(){
         case 3:
             if (personaje.objetos[2].cantidad >= 5){
                 personaje.objetos[2].cantidad -= 5;
-                personaje.armadura = {"Armadura de muertos", 60};
+                personaje.armadura = {"Armadura de muertos", 80};
                 cout << "Ten y no mueras!" << endl;
             }else{
                 cout << "No tienes los items para crearlo" << endl;
@@ -1109,11 +1119,7 @@ int main() {
     int monstruosDerrotados = 0, diasPasados = 0, opcion;
     bool gameOver = false, victoria = false;
     creacionDePersonaje();
-    //kit dev :D
-    if (personaje.nombre == "ariana"){
-        personaje.ataque = 200;
-        personaje.defensa = 1000;
-    }
+
     do {
     cout << "Estas en la aldea, que quieres hacer?" << endl;
     cout << "1. Recolectar" << endl;
