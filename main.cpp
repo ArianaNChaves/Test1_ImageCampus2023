@@ -226,8 +226,8 @@ int consultarInventarioConsumible(){
             cout<<i+1 <<".[" <<toStr(personaje.consumibles[i].item) <<" x" << personaje.consumibles[i].cantidad << "] ";
         }
         cout << endl;
-        cout << "1.Consumir pocion de vida" << endl;
-        cout << "2.Consumir pocion de defensa" << endl;
+        cout << "1.Consumir pocion de vida (+100)" << endl;
+        cout << "2.Consumir pocion de defensa (+100)" << endl;
         cout << "3.Salir del inventario" << endl;
         do{
             cin >> opcion;
