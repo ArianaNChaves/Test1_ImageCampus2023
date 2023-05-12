@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 /*Ideas
- * Sleep hace que no te muestre todo el choclo de texto de una, si no que vaya como narrando
+ * Sleep hace que no te muestre el choclo de texto de una, si no que vaya como narrando
  * Que el combate sea como el pokemon, donde podes elegir: atacar, usar objeto o huir.
  * Tener un array que sea "mochila" donde pueda llevar x cantidad de objetos. (5 por ejemplo)
  * Hacer enemigos "mas dificiles" a medida que van avanzando los dias
@@ -69,7 +69,6 @@ struct Enemigo{
 
 }enemigo;
 int numeroAleatorio(int minimo, int maximo) {
-  //todo  srand(time(0));
     int numeroAleatorio = rand() % (maximo - minimo + 1) + minimo;
     return numeroAleatorio;
 }
@@ -1099,7 +1098,6 @@ bool reyDemonio(){
     }
     return resultado;
 }
-//todo Explicar como pelear(chances), recolectar, que pasa si moris, el funcionamiento de las pociones de vida/defensa
 void bienvenida(){
     cout << "Bienvenido "<< personaje.nombre << "! te adentraras en una aventura para salvarnos del rey Demonio"<< endl;
     cout << "Pero antes unos consejos que te pueden ayudar en la travesia:"<< endl;
