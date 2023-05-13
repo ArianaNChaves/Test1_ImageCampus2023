@@ -127,6 +127,7 @@ void creacionDePersonaje(){
         personaje.ataque = 200;
         personaje.vida = 1000;
         personaje.defensa = 1000;
+        personaje.energia = 10000;
         cout << "Modo matambre a la pizza con pure" << endl;
     } else{
         cout << "Se ha creado el personaje!" << endl;
@@ -155,8 +156,6 @@ bool golpeara(int porcentajeDeQueGolpee){
     bool golpeara;
     float indiceDeGolpe = porcentajeDeQueGolpee/10;
     int chance = numeroAleatorio(1,10);
-    cout << "Indice de golpe: " << indiceDeGolpe << endl;
-    cout << "Chance: "  << chance << endl;
     if (indiceDeGolpe >= chance){
         golpeara = true;
     }else{
@@ -1202,7 +1201,7 @@ int main() {
         cout << "------------------- |Puntaje final| ------------------- " << endl;
         cout << "Monstruos derrotados: "<< monstruosDerrotados << endl;
         cout << "Dias transcurridos: "<< diasPasados << endl;
-        cout << "------------------- |Perdiste| ------------------- " << endl;
+        cout << "------------------- |Has Perdido| ------------------- " << endl;
         cout << "------------------------------------------------------------------------------- "<< endl;
         system("pause");
     }
